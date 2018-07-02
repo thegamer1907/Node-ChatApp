@@ -35,6 +35,12 @@ socket.on('disconnect', function() {
 
 socket.on('updateUserList', function(users) {
   console.log(users);
+  var ol = jQuery('<ol></ol>');
+  users.forEach(function(user) {
+    ol.append(jQuery('<li></li>').text(user))
+  });
+
+  jQuery('#Users').html(ol);
 });
 
 
@@ -68,7 +74,6 @@ jQuery('#message-form').on('submit', function(e) {
   e.preventDefault();
   var msgbox = jQuery('[name=message]');
   socket.emit('createMessage', {
-    from: 'User',
     text: msgbox.val()
   }, function() {
      msgbox.val('');
@@ -85,7 +90,6 @@ locationButton.on('click', function(){
   locationButton.attr('disabled', 'disabled').text('Sending location...');
 
   navigator.geolocation.getCurrentPosition(function(position){
-    //console.log(position);
     locationButton.removeAttr('disabled').text('Send Location');
     socket.emit('createLocation', {
       latitude: position.coords.latitude,
