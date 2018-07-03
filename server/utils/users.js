@@ -26,11 +26,25 @@ class Users {
     return userlist[0];
   }
 
+  verifyUser(name,room) {
+    var names = this.getUserList(room);
+    //console.log(names);
+    var users = names.filter((user) => user === name);
+    return users[0];
+  }
+
+
   getUserList (room) {
+    //console.log(this.users);
     var userlist = this.users.filter((user) => user.room === room);
     //console.log(userlist);
     var names = userlist.map((user) => user.name);
     return names;
+  }
+
+  getRoomlist() {
+    var uniquerooms = [...new Set( this.users.map(obj => obj.room))];
+    return uniquerooms;
   }
 }
 

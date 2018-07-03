@@ -6,29 +6,71 @@
   <meta charset="utf-8">
   <title>Join | ChatApp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/main-style.css">
 </head>
 
 
-<body class="centered-form">
-  <div class="centered-form__form">
-    <form action="/chat.html">
-      <div class="form-field">
-        <h3>Join a chat<h3>
+<body>
+  <div class="form">
+    <div class="head" class="signup">
+      <div onclick="swap(this);" data-tab="login" class="login-tab" >
+        JOIN ROOM
       </div>
-      <div class="form-field">
-        <label>Display name</label>
-        <input type="text" name="name" autofocus>
+      <div onclick="swap(this);" data-tab="signup" class="signup-tab">
+        CREATE ROOM
       </div>
-      <div class="form-field">
-          <label>Room name</label>
-          <input type="text" name="room">
-      </div>
-      <div class="form-field">
-        <button>Join</button>
-      </div>
-    </form>
+    </div>
+    <div class="body" id="form-body">
+        <div class="login">
+          <br>
+          <br>
+          <form action="/chat.html">
+            <div class="form-row">
+              <input type="text" name="name" placeholder="Display Name" autofocus>
+            <br>
+            <br>
+            <br>
+                <select name="room" id="roomlist"></select>
+            <br>
+            <br>
+                <button>Join Room</button>
+            </div>
+
+          </form>
+        </div>
+        <div class="signup">
+          <br>
+          <br>
+          <form action="/chat.html">
+            <div class="form-row">
+              <input type="text" name="name" placeholder="Display Name" autofocus>
+            </div>
+            <br>
+            <br>
+            <div class="form-row">
+                <input type="text" name="room" placeholder="Room Name">
+                <button>Create Room</button>
+            </div>
+          </form>
+        </div>
+    </div>
   </div>
+ <script>
+   function swap(referTo){
+    if(referTo.getAttribute("data-tab") == "login") {
+      document.getElementById("form-body").classList.remove('active');
+      referTo.parentNode.classList.remove('signup');
+    }
+    else{
+      document.getElementById("form-body").classList.add('active');
+      referTo.parentNode.classList.add('signup');
+    }
+   }
+ </script>
+ <script src="/socket.io/socket.io.js"></script>
+ <script src="/js/libs/jquery-3.3.1.min.js"></script>
+ <script src="/js/index.js"></script>
 </body>
+
 
 </html>

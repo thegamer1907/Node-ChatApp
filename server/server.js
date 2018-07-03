@@ -20,11 +20,17 @@ io.on('connection', (socket) => {
 
 
   socket.on('join',(params,callback) => {
+    params.room = params.room.toLowerCase();
+    var names = users.getUserList(params.room);
+    // console.log(users.getRoomlist());
+    var isval = names.filter((name) => name === params.name);
     if(!isreals(params.name) || !isreals(params.room))
     {
       return callback('Name and room name are required');
-    } else {
-
+    } else if(isval.length > 0) {
+      return callback('Name is already taken');
+    }
+    else {
       socket.join(params.room);
       users.removeUser(socket.id);
       users.addUser(socket.id,params.name,params.room);
@@ -61,6 +67,11 @@ io.on('connection', (socket) => {
       io.to(user.room).emit('updateUserList', users.getUserList(user.room));
       io.to(user.room).emit('newMessage', generateMessage('Admin',`${user.name} has left!`));
     }
+  });
+
+  socket.on('getRoomlist', (no,callback) => {
+    var rooms = users.getRoomlist();
+    callback(rooms);
   });
 
 });
